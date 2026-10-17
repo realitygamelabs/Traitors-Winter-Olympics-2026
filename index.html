@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#080d13" />
+  <meta name="description" content="An immersive archive of The Traitors: Winter Olympics. Relive every phase, watch the events, hear player confessionals, and explore the Chalet conversations." />
+  <title>The Traitors: Winter Olympics — Season Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Marcellus&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="site" id="top">
+    <div class="topbar"><span>THE CHALET ARCHIVES</span><div class="five-rings" aria-label="Olympic rings inspired accent"><i></i><i></i><i></i><i></i><i></i></div><span>WINTER 2026 · AN ARCHIVE OF DECEPTION</span></div>
+    <header class="hero">
+      <div class="hero-decoration"><span class="snowline snowline-one"></span><span class="snowline snowline-two"></span><span class="snowline snowline-three"></span></div>
+      <div class="hero-inner wrap">
+        <div class="hero-logo"><img src="assets/logo.png" alt="The Traitors: Winter Olympics logo with Olympic rings" /></div>
+        <div class="hero-copy">
+          <p class="micro gold"><span class="asterisk">✦</span> THE COMPLETE SEASON ARCHIVE <span class="asterisk">✦</span></p>
+          <h1>Trust is a<br/><em>dangerous game.</em></h1>
+          <p class="hero-description">Twelve players. A secluded Chalet. Four rooms, countless private conversations, and one question nobody can answer for sure: <strong>who is lying?</strong></p>
+          <div class="hero-actions"><a href="#recordings" class="primary-action">ENTER THE GAME <span>↗</span></a><a href="#story" class="secondary-action">READ THE STORY <span>↓</span></a></div>
+        </div>
+        <div class="hero-side"><div class="spine">THE TRAITORS <span>·</span> WINTER OLYMPICS</div><div class="chapter-shield">✦</div><div class="vertical-year">MMXXVI</div></div>
+      </div>
+      <div class="hero-foot wrap"><span>THE CHALE<span class="track">T</span></span><span>BETRAYAL · BLUFFS · BANISHMENTS</span><span>FEBRUARY 2026</span></div>
+    </header>
+
+    <nav class="chapter-nav" aria-label="Game phase navigation">
+      <div class="wrap nav-layout"><div class="nav-label">SELECT A CHAPTER <span>↘</span></div><div class="chapters" id="chapterNav"></div></div>
+    </nav>
+
+    <main id="main" tabindex="-1">
+      <section class="chapter-head wrap" aria-labelledby="chapterTitle">
+        <div class="chapter-overline"><span class="tiny-line"></span><span id="chapterIndicator">CHAPTER 01 OF 06</span><span class="tiny-line"></span><span id="chapterDates">FEBRUARY 2026</span></div>
+        <div class="chapter-top"><div><p id="chapterSub" class="micro pale"></p><h2 id="chapterTitle" class="chapter-title">The Doors Open</h2></div><div class="chapter-number" id="chapterNum" aria-hidden="true">01<span>/06</span></div></div>
+        <p class="chapter-lead" id="chapterLead"></p>
+        <div class="chapter-stats" id="chapterStats"></div>
+      </section>
+
+      <section class="section-video wrap" id="recordings" aria-label="Official event recordings">
+        <div class="section-heading"><div><p class="micro gold">THE OFFICIAL RECORD</p><h3>Watch the events <span class="serif-italic">unfold.</span></h3></div><p>Every major ceremony and game event, straight from the original recordings.</p></div>
+        <div class="watch-layout">
+          <div class="player-panel"><div class="player-head"><span class="red-led"></span><span>NOW SHOWING</span><span class="player-count" id="playerCount"></span></div><div class="player-ratio"><iframe id="mainPlayer" title="Game event video" src="about:blank" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe><div id="playerPlaceholder" class="player-placeholder"><img src="assets/logo.png" alt=""/><span>SELECT A RECORDING TO PLAY</span></div></div><div class="player-bottom"><div><p id="playingType" class="micro gold">GAME RECORDING</p><h4 id="playingName">Select an event</h4><p id="playingDate"></p></div><a id="externalVideo" class="outline-action" href="#" target="_blank" rel="noopener noreferrer">OPEN IN DRIVE ↗</a></div></div>
+          <div class="playlist-panel"><div class="playlist-top"><span>THIS CHAPTER</span><span id="playlistCount">00 FILMS</span></div><div class="playlist-list" id="recordingList"></div><div class="playlist-footer">Recordings are hosted on Google Drive. Your viewing access depends on the original file permissions.</div></div>
+        </div>
+      </section>
+
+      <section class="story-section" id="story" aria-label="Chronicle of the game"><div class="wrap">
+        <div class="section-heading story-heading"><div><p class="micro gold">THE STORY, AS IT HAPPENED</p><h3>Inside <span class="serif-italic">the Chalet.</span></h3></div><p>What the private conversations reveal about the alliances, accusations and decisions shaping this chapter.</p></div>
+        <div class="story-layout"><div class="story-lead-block"><span class="ornament">✦</span><div class="small-rule"></div><p class="story-big-quote" id="bigQuote"></p><p class="field-note" id="storyNote"></p></div><div class="story-beats" id="storyBeats"></div></div>
+      </div></section>
+
+      <section class="evidence-section wrap" id="evidence" aria-label="Important game screenshots">
+        <div class="section-heading"><div><p class="micro gold">EXHIBITS FROM THE ROOM</p><h3>The conversations <span class="serif-italic">that mattered.</span></h3></div><p>Selected moments from the WhatsApp rooms. Click a screenshot to read the original exchange in full.</p></div>
+        <div class="exhibit-layout" id="highlightGrid"></div>
+      </section>
+
+      <section class="conf-section" id="confessionals" aria-label="Player confessionals"><div class="wrap">
+        <div class="section-heading"><div><p class="micro gold">PRIVATE THOUGHTS. PUBLIC CONSEQUENCES.</p><h3>From the <span class="serif-italic">confessional.</span></h3></div><p>What players submitted at the time. Choose a player or browse every confessional in this chapter.</p></div>
+        <div class="conf-layout"><div class="conf-sidebar"><div class="sidebar-head">THE DIARY ROOM <span id="confCounter">0 RECORDINGS</span></div><label for="playerSelect">FILTER BY PLAYER</label><select id="playerSelect" aria-label="Filter by player"><option value="all">All players</option></select><label for="confSearch">FIND A CONFESSIONAL</label><input id="confSearch" type="search" placeholder="Search player or date" autocomplete="off" /><div class="sort-switch"><button type="button" id="sortOld" class="sort-button active">OLDEST FIRST</button><button type="button" id="sortNew" class="sort-button">NEWEST FIRST</button></div><div class="sidebar-mark"><span>✦</span><small>EVERY PLAYER HAS<br/>A DIFFERENT STORY.</small></div></div><div class="conf-panel"><div class="conf-table-head"><span>PLAYER / DATE</span><span>ENTRY</span></div><div class="conf-list" id="confList"></div></div></div>
+      </div></section>
+
+      <section class="archive-section wrap" id="archive" aria-label="All chat screenshots">
+        <div class="section-heading"><div><p class="micro gold">THE UNEDITED PAPER TRAIL</p><h3>Every captured <span class="serif-italic">conversation.</span></h3></div><p>Browse the full screenshot archive in chronological order. File timestamps indicate when the screenshot was captured, not necessarily when every message was sent.</p></div>
+        <div class="archive-toolbar"><div class="archive-toggle"><button id="galleryAll" class="gallery-tab selected" type="button">ALL SCREENGRABS</button><button id="galleryHighlights" class="gallery-tab" type="button">FEATURED ONLY</button></div><div class="archive-tools"><label for="daySelect">CAPTURE DATE</label><select id="daySelect"><option value="all">All dates</option></select><span id="photoCount">0 PHOTOS</span></div></div>
+        <div class="gallery-grid" id="photoGrid"></div><div class="gallery-footer"><span id="shownCount"></span><button id="morePhotos" class="more-button" type="button">LOAD MORE SCREENGRABS <span>↓</span></button></div>
+      </section>
+
+      <div class="chapter-pagination wrap"><button id="prevChapter" type="button"><span>← PREVIOUS CHAPTER</span><strong id="prevName"></strong></button><div class="page-ornament">✦</div><button id="nextChapter" type="button"><span>NEXT CHAPTER →</span><strong id="nextName"></strong></button></div>
+    </main>
+
+    <footer class="footer"><div class="wrap footer-inner"><img src="assets/logo.png" alt="The Traitors Winter Olympics"/><div><span class="micro gold">THE END IS NEVER REALLY THE END.</span><h3>The Traitors <i>Winter Olympics.</i></h3><p>Season archive · 2026 · Preserved from original recordings, submitted confessionals, and chat screenshots.</p></div><a href="#top">BACK TO TOP ↑</a></div><div class="wrap footer-foot"><span>THE CHALET ARCHIVES</span><span>ALL CONTENT BELONGS TO ITS ORIGINAL CREATORS AND PARTICIPANTS</span></div></footer>
+  </div>
+  <dialog class="media-dialog" id="mediaDialog" aria-label="Confessional player"><div class="modal-bar"><div><span class="micro gold" id="dialogTag">CONFESSIONAL</span><h3 id="dialogTitle"></h3></div><div><a id="dialogExternal" target="_blank" rel="noopener noreferrer" href="#" class="outline-action">OPEN IN DRIVE ↗</a><button type="button" id="dialogClose" aria-label="Close player">×</button></div></div><div class="modal-content"><iframe id="dialogFrame" title="Confessional playback" src="about:blank" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div><p class="modal-note">If the audio does not play here, select “Open in Drive” to use your existing Google permissions.</p></dialog>
+  <dialog class="image-dialog" id="imageDialog" aria-label="Expanded screenshot"><div class="image-dialog-tools"><span id="lightboxLabel"></span><div><button type="button" id="photoPrev" aria-label="Previous photo">←</button><button type="button" id="photoNext" aria-label="Next photo">→</button><button type="button" id="photoClose" aria-label="Close photo">×</button></div></div><div class="image-dialog-stage"><img id="zoomImage" alt="Enlarged WhatsApp conversation screenshot" /></div><div id="lightboxCaption" class="lightbox-caption"></div></dialog>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
