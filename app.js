@@ -19,7 +19,40 @@
   const state = { phase:phaseFromUrl(), selectedRecording:0, player:'all', sort:'asc', search:'', gallery:'all', date:'all', shown:36, visiblePhotos:[] };
   const getPhase = () => root.phases[state.phase];
   const getConfessionals = () => root.confessionals.filter(c => c.phase === state.phase);
-  const getPhotos = () => root.photos.filter(p => p.phase === state.phase);
+  const missingImages = new Set();
+  let photoRefreshPending = false;
+  const getPhotos = () => root.photos.filter(p => p.phase === state.phase && !missingImages.has(p.src));
+  function markMissingImage(src) {
+    if (!src || missingImages.has(src)) return;
+    missingImages.add(src);
+    // Batch refreshes so many removed GitHub files do not cause hundreds of rerenders.
+    if (photoRefreshPending) return;
+    photoRefreshPending = true;
+    requestAnimationFrame(() => {
+      photoRefreshPending = false;
+      renderHighlights();
+      renderDays();
+      renderGallery();
+      updateHeading();
+    });
+  }
+  // Static hosting cannot enumerate files. When a referenced image is deleted
+  // from the repository, the first failed image load hides it everywhere.
+  document.addEventListener('error', (event) => {
+    const image = event.target;
+    if (!(image instanceof HTMLImageElement)) return;
+    const src = image.getAttribute('src');
+    if (!src || !src.startsWith('assets/photos/')) return;
+    markMissingImage(src);
+    if (image.id === 'zoomImage') {
+      // Avoid a broken image in the lightbox; advance to the next available one.
+      const next = lightboxPhotos.findIndex((p,i) => i>lightboxIndex && !missingImages.has(p.src));
+      const prev = lightboxPhotos.findLastIndex((p,i) => i<lightboxIndex && !missingImages.has(p.src));
+      if (next>=0) { lightboxIndex=next; updateImageLightbox(); }
+      else if (prev>=0) { lightboxIndex=prev; updateImageLightbox(); }
+      else closeImage();
+    }
+  }, true);
   const num = (n) => String(n).padStart(2,'0');
 
   function renderNav() {
@@ -40,7 +73,7 @@
       [p.recordings.length, 'OFFICIAL RECORDING'+(p.recordings.length===1?'':'S')],
       [p.confessionals, 'CONFESSIONALS'],
       [p.players, 'PLAYERS HEARD FROM'],
-      [p.screenshots, 'CHAT SCREENGRABS']
+      [getPhotos().length, 'CHAT SCREENGRABS']
     ].map(([v,l])=>`<div class="stat-item"><strong>${v}</strong><span>${html(l)}</span></div>`).join('');
   }
 
@@ -51,12 +84,17 @@
     state.selectedRecording=index;
     // Google Drive preview is an iframe rather than a direct video file URL.
     // A user's sharing settings still control whether the video is playable.
-    $('mainPlayer').src=film.embed || 'about:blank';
+    const mobile = matchMedia('(max-width:700px)').matches;
+    $('playerPlaceholder').style.display=(!mobile && !film.embed) ? 'grid' : 'none';
+    $('mobileVideoCover').style.display=mobile ? 'flex' : 'none';
+    $('mainPlayer').src=mobile ? 'about:blank' : (film.embed || 'about:blank');
     $('mainPlayer').title=film.name;
-    $('playerPlaceholder').style.display=film.embed ? 'none' : 'grid';
+    document.querySelector('.player-panel').classList.remove('mobile-embed-active');
+    $('mobileVideoCoverLink').href=film.link;
     $('playingName').textContent=film.name;
     $('playingDate').textContent=film.date || '';
     $('externalVideo').href=film.link;
+    $('mobileVideoLink').href=film.link;
     $('playerCount').textContent=`${num(index+1)} / ${num(recordings.length)}`;
     for(const button of $('recordingList').querySelectorAll('button')) {
       const active=Number(button.dataset.index)===index;
@@ -82,11 +120,12 @@
 
   function renderHighlights() {
     const p=getPhase();
-    $('highlightGrid').innerHTML=p.highlights.map((h,i)=>`<button type="button" class="evidence-card" data-highlight="${i}" aria-label="Open conversation exhibit ${i+1}"><div class="exhibit-img"><img loading="lazy" src="${html(h.src)}" alt="Original chat screenshot for exhibit ${i+1}"></div><div class="evidence-body"><span class="evidence-num">EXHIBIT ${num(i+1)}</span><h4>Conversation ${num(i+1)}</h4><p>${html(h.caption)}</p><div class="shot-date">CAPTURED ${html(h.date.toUpperCase())} · ${html(h.time)}</div></div></button>`).join('');
+    $('highlightGrid').innerHTML=p.highlights.filter(h=>!missingImages.has(h.src)).map((h,i)=>`<button type="button" class="evidence-card" data-highlight="${i}" aria-label="Open conversation exhibit ${i+1}"><div class="exhibit-img"><img loading="lazy" src="${html(h.src)}" alt="Original chat screenshot for exhibit ${i+1}"></div><div class="evidence-body"><span class="evidence-num">EXHIBIT ${num(i+1)}</span><h4>Conversation ${num(i+1)}</h4><p>${html(h.caption)}</p><div class="shot-date">CAPTURED ${html(h.date.toUpperCase())} · ${html(h.time)}</div></div></button>`).join('');
     $('highlightGrid').querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{
-      const item=p.highlights[Number(button.dataset.highlight)];
+      const item=p.highlights.filter(h=>!missingImages.has(h.src))[Number(button.dataset.highlight)];
+      if (!item) return;
       const current=getPhotos().findIndex(photo=>photo.src===item.src);
-      openImage(current>=0?current:0,getPhotos(),item.caption);
+      if (current>=0) openImage(current,getPhotos(),item.caption);
     }));
   }
 
@@ -113,6 +152,9 @@
     if (!c) return;
     $('dialogTitle').textContent=`${c.player} · ${c.date}`;
     $('dialogExternal').href=c.url;
+    $('mobileConfessionalLink').href=c.url;
+    $('mediaDialog').classList.remove('show-mobile-embed');
+    $('tryEmbeddedAudio').textContent='TRY EMBEDDED PLAYER';
     $('dialogFrame').src=c.embed||'about:blank';
     try {$('mediaDialog').showModal();} catch(e) {window.open(c.url,'_blank','noopener,noreferrer');}
   }
@@ -124,6 +166,7 @@
 
   function renderDays() {
     const days=[...new Set(getPhotos().map(p=>p.day))].sort();
+    if(state.date!=='all'&&!days.includes(state.date)) state.date='all';
     $('daySelect').innerHTML='<option value="all">All dates</option>'+days.map(day=>{
       const date=new Date(day+'T12:00:00');
       const display=date.toLocaleDateString('en-US',{month:'short',day:'numeric'});
@@ -134,7 +177,7 @@
 
   function photoFilter() {
     const p=getPhase();
-    const featured=new Set(p.highlights.map(v=>v.src));
+    const featured=new Set(p.highlights.filter(h=>!missingImages.has(h.src)).map(v=>v.src));
     return getPhotos().filter(photo => (state.gallery==='all'||featured.has(photo.src))&&(state.date==='all'||photo.day===state.date));
   }
 
@@ -230,7 +273,16 @@
   $('morePhotos').addEventListener('click',()=>{state.shown+=36;renderGallery();});
   $('prevChapter').addEventListener('click',()=>setPhase(state.phase-1));
   $('nextChapter').addEventListener('click',()=>setPhase(state.phase+1));
+  $('tryEmbeddedVideo').addEventListener('click',()=>{
+    const film=getPhase().recordings[state.selectedRecording];
+    if (!film || !film.embed) return;
+    $('mainPlayer').src=film.embed;
+    $('mobileVideoCover').style.display='none';
+    document.querySelector('.player-panel').classList.add('mobile-embed-active');
+  });
+  matchMedia('(max-width:700px)').addEventListener('change',()=>selectRecording(state.selectedRecording));
   $('dialogClose').addEventListener('click',closeConfessional);
+  $('tryEmbeddedAudio').addEventListener('click',()=>{$('mediaDialog').classList.toggle('show-mobile-embed');$('tryEmbeddedAudio').textContent=$('mediaDialog').classList.contains('show-mobile-embed')?'HIDE EMBEDDED PLAYER':'TRY EMBEDDED PLAYER';});
   $('mediaDialog').addEventListener('close',()=>{$('dialogFrame').src='about:blank';});
   $('photoClose').addEventListener('click',closeImage);
   $('photoPrev').addEventListener('click',()=>moveImage(-1));

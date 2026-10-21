@@ -1,29 +1,30 @@
-# The Traitors: Winter Olympics | Season Archive
+# The Traitors: Winter Olympics — Update without audience chat
 
-A self-contained static website for the 2026 game. Built with plain HTML, CSS, and JavaScript. No installation, server-side code, build tools, or dependencies are required.
+This is a **small update** for the existing GitHub Pages repository. It does **not** contain or replace any photos.
 
-## What's included
+## Install
 
-- Six selectable chapters spanning Opening through Finale + Reunion.
-- All 10 official game-event recording links from the supplied workbook. Recordings are embedded using the Google Drive preview player, with an "Open in Drive" fallback.
-- All 191 named confessional entries with player filters, search by player/date, sort order, and Google Drive playback links.
-- 967 chronological chat screenshots, converted to optimized WebP images, with a selected set of conversation highlights, full-screen zoom, and chapter-specific galleries.
-- Curated chapter summaries based on selected excerpts from the supplied chat screenshots. These are interpretive synopses, not definitive transcripts or confirmation of the players' secret roles.
+1. In GitHub Desktop, choose your `Traitors-Winter-Olympics-2026` repository and **Repository → Show in Finder** (Mac) or **Show in Explorer** (Windows).
+2. Unzip the update package. Copy `index.html`, `app.js`, `styles.css`, and `data.js` into the **repository root**, replacing the old copies.
+3. **Delete these two old files from the repository if present:** `sentiment-data.js` and `audience_daily_support.csv`. They are not used and must not remain in the public repo if you want all audience-derived data gone.
+4. Leave the `assets/` directory and all existing media unchanged. No need to upload any screenshots again.
+5. Commit in GitHub Desktop, then click **Push origin**. GitHub Pages will republish. Refresh after a few minutes (hard-refresh if necessary).
 
-## Repository setup
+Your page: https://realitygamelabs.github.io/Traitors-Winter-Olympics-2026/
 
-1. Extract the ZIP. Its `index.html`, `styles.css`, `app.js`, `data.js`, and `assets/` directory must retain the same relative arrangement.
-2. Add the extracted contents to the root of a GitHub repository, then commit and push. Because there are 967 assets, uploading with Git or GitHub Desktop is easier than uploading individual files in the web interface.
-3. To host on GitHub Pages, go to **Settings → Pages → Build and deployment**, choose **Deploy from a branch**, select the main branch and `/ (root)`, then save. GitHub Pages should find `index.html` automatically. (These options are subject to GitHub account/repository policies.)
+## What changed
 
-The website is static, so it can also be hosted on Netlify, Cloudflare Pages, or an ordinary web server. Opening `index.html` locally may work, but a hosted preview is best for testing all embeds.
+- Removed the audience sentiment section and all dependence on the spectator-chat data.
+- Rewrote the six chapter narratives with the correct role reveal: Thomas and Beverage discover each other as the Traitors at Tower 1, and Beverage wins alone in the finale. Narratives refer to in-game records and user-provided facts only.
+- Mobile: recordings now show a clean, full-width **Play Video in Drive** control by default, avoiding Google Drive’s cropped embedded player. The visitor can choose **Try embedded player** instead. Confessionals likewise default to a direct Drive playback link with an optional embedded player. Playback depends on the source files’ Google Drive permissions.
+- Missing screenshot handling: deleting any image under `assets/photos/` no longer leaves a broken thumbnail. A failed load automatically hides the image in both the featured highlights and gallery. Galleries, filters, totals, and lightbox navigation adjust as images are detected missing. Since GitHub Pages is static, there is no live directory listing; the missing file is removed from the interface *when its image is first requested by a visitor's browser*.
 
-## Important notes
+## Site structure
 
-**Google Drive permissions:** Only links to recordings are included. The audio and video files themselves are **not** stored in the package. The owner of each Drive file must grant the intended viewers access for playback to work; embedding a file does not change permissions.
+- `index.html` — static page and media dialogs
+- `app.js` — chapters, videos, confessionals, screenshot gallery and missing-file handling
+- `styles.css` — visuals and responsive behavior
+- `data.js` — event links, confessional links, story narratives, photo metadata
+- `assets/logo.png`, `assets/photos/` — **existing** media in your repository, unchanged by this update
 
-**Privacy:** The 967 original screenshots include private WhatsApp conversations and may contain participant names, phone numbers, or other personal information. Publishing this repository or deploying it via a publicly accessible GitHub Pages URL will expose those images to anyone who can access the site. Check with participants and remove/redact anything you don't want published before hosting publicly. A private repository does not automatically guarantee that a Pages site is private.
-
-**Dates:** The source spreadsheet identifies event dates but not precise event start times. For boundary days, the archive assigns official recordings by their event name and groups screengrabs/confessionals using calendar dates and practical phase boundaries. A screenshot's filename timestamp records when it was captured, not necessarily when each message was posted.
-
-**Editing:** The narrative, chapter video links, confessional entries, and image index live in `data.js`. The layout is in `index.html`, styling is in `styles.css`, and interactions are in `app.js`. The logo is `assets/logo.png`; all captured images are in `assets/photos/`.
+The original event and confessional recordings are still hosted on Google Drive; viewers must have permission to open them. Please review conversation screenshots for privacy before sharing the page publicly.
