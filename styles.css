@@ -106,3 +106,10 @@
 @media(max-width:360px) { .mobile-video-cover img { display:none; } }
 
 @media(max-width:700px) { .player-bottom .outline-action { display:none; } }
+
+/* Strong chapter-level Traitor storyline, visible above the official recordings. */
+.traitor-track{display:flex;align-items:center;gap:22px;margin-top:25px;padding:17px 21px;border:1px solid rgba(205,166,109,.36);border-left:3px solid var(--gold);background:linear-gradient(110deg,rgba(124,35,42,.23),rgba(20,28,37,.54));max-width:1080px}
+.traitor-track-label{flex:0 0 184px;display:flex;gap:10px;align-items:center;font:500 11px var(--cond);letter-spacing:.15em;color:var(--goldlight)}
+.traitor-track-label span{font:400 17px var(--serif)}
+.traitor-track p{color:#e3dfd5;font:400 14px/1.65 var(--sans);margin:0}
+@media(max-width:640px){.traitor-track{display:block;padding:16px;margin-top:21px}.traitor-track-label{margin-bottom:9px;font-size:10px}.traitor-track p{font-size:13px;line-height:1.68}}

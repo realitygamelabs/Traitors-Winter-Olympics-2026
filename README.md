@@ -1,30 +1,20 @@
-# The Traitors: Winter Olympics — Update without audience chat
+# The Traitors: Winter Olympics — Narrative Visibility Fix
 
-This is a **small update** for the existing GitHub Pages repository. It does **not** contain or replace any photos.
+This update fixes a likely stale chapter-data problem and makes the Thomas/Beverage narrative clearly visible in **all six chapter intros**. It changes five small site files; your existing screenshot assets and Google Drive links are preserved.
 
-## Install
+## Install with GitHub Desktop
 
-1. In GitHub Desktop, choose your `Traitors-Winter-Olympics-2026` repository and **Repository → Show in Finder** (Mac) or **Show in Explorer** (Windows).
-2. Unzip the update package. Copy `index.html`, `app.js`, `styles.css`, and `data.js` into the **repository root**, replacing the old copies.
-3. **Delete these two old files from the repository if present:** `sentiment-data.js` and `audience_daily_support.csv`. They are not used and must not remain in the public repo if you want all audience-derived data gone.
-4. Leave the `assets/` directory and all existing media unchanged. No need to upload any screenshots again.
-5. Commit in GitHub Desktop, then click **Push origin**. GitHub Pages will republish. Refresh after a few minutes (hard-refresh if necessary).
+1. Download and unzip this package.
+2. Open **GitHub Desktop**, select your `Traitors-Winter-Olympics-2026` repository and choose **Repository → Show in Finder** (Mac) or **Show in Explorer** (Windows).
+3. Copy `index.html`, `app.js`, `styles.css`, and `data.js` from this update into the **root** of your repository, overwriting the existing versions. The README is optional.
+4. Do not delete or replace `assets/` or its screenshots.
+5. Go back to GitHub Desktop, commit the changes and click **Push origin**.
+6. Check the **Actions** tab for a successful Pages deployment. Refresh the published site after completion.
 
-Your page: https://realitygamelabs.github.io/Traitors-Winter-Olympics-2026/
+## Verify
 
-## What changed
+Select **Chapter 02 / The First Tower**. Immediately under the chapter introduction, you should see **BEHIND THE DECEPTION** and the sentence beginning **“Thomas + Beverage are the two Traitors.”** The chapter's main description should also begin **“At Tower 1, Thomas and Beverage...”** If you don't see that exact text, the latest `data.js` and/or `index.html` hasn't been published yet.
 
-- Removed the audience sentiment section and all dependence on the spectator-chat data.
-- Rewrote the six chapter narratives with the correct role reveal: Thomas and Beverage discover each other as the Traitors at Tower 1, and Beverage wins alone in the finale. Narratives refer to in-game records and user-provided facts only.
-- Mobile: recordings now show a clean, full-width **Play Video in Drive** control by default, avoiding Google Drive’s cropped embedded player. The visitor can choose **Try embedded player** instead. Confessionals likewise default to a direct Drive playback link with an optional embedded player. Playback depends on the source files’ Google Drive permissions.
-- Missing screenshot handling: deleting any image under `assets/photos/` no longer leaves a broken thumbnail. A failed load automatically hides the image in both the featured highlights and gallery. Galleries, filters, totals, and lightbox navigation adjust as images are detected missing. Since GitHub Pages is static, there is no live directory listing; the missing file is removed from the interface *when its image is first requested by a visitor's browser*.
+This update adds version query strings to all three local JS/CSS requests so browsers fetch the revised data rather than a previously cached version. It also repeats the correct roles in the prominent chapter summary, so the key information is immediately visible without scrolling down to the long-form chronicle.
 
-## Site structure
-
-- `index.html` — static page and media dialogs
-- `app.js` — chapters, videos, confessionals, screenshot gallery and missing-file handling
-- `styles.css` — visuals and responsive behavior
-- `data.js` — event links, confessional links, story narratives, photo metadata
-- `assets/logo.png`, `assets/photos/` — **existing** media in your repository, unchanged by this update
-
-The original event and confessional recordings are still hosted on Google Drive; viewers must have permission to open them. Please review conversation screenshots for privacy before sharing the page publicly.
+The archive contains no audience sentiment analysis or spectator-chat material. Mobile Google Drive direct-play links and the missing-screenshot behavior are unchanged.

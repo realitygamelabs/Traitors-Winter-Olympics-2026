@@ -69,6 +69,7 @@
     $('chapterTitle').textContent=p.title;
     $('chapterNum').innerHTML=`${num(p.index)}<span>/06</span>`;
     $('chapterLead').textContent=p.lead;
+    $('traitorTrackText').textContent=p.traitorPerspective || '';
     $('chapterStats').innerHTML = [
       [p.recordings.length, 'OFFICIAL RECORDING'+(p.recordings.length===1?'':'S')],
       [p.confessionals, 'CONFESSIONALS'],
